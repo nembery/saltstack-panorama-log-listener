@@ -24,7 +24,7 @@ Use the following log format:
         - /srv/salt/reactor/vistoq_device_connected.sls
     ```
 
-3. Create the reactor sls file to map the event structure to your python code
+3. Create the reactor sls file in the salt/reactor directory to map the event structure to your python code
 
     ```bash
     # this sls file recieves two objects: data and tag
@@ -55,7 +55,8 @@ Use the following log format:
        - device_serial: "{{ d.split(":")[1].split(" ")[0] | string }}" 
    ```
  
- 4. Create your python code in the salt/runner directory
+ 4. Create your python code in the salt/runner directory. In this case, the 'updates.py' file will
+ contain something like the following:
  
     ```python
     # create a function that matches that listed in your reactor file above
