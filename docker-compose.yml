@@ -1,0 +1,15 @@
+version: '3'
+services:
+  listener:
+    image: "saltstack/salt:2019.2.0"
+    ports:
+    - "4505:4505"
+    - "4506:4506"
+    - "9000:9000"
+    volumes:
+     - ./provisioner/config:/etc/salt/master.d
+     - ./provisioner/salt:/srv/salt
+     - ./provisioner/pki:/var/lib/salt/pki/master
+     - ./provisioner/pki:/etc/salt/pki/master
+     - ./provisioner/run:/var/run/salt
+
