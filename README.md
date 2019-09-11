@@ -6,7 +6,16 @@ This is a simple example of how to set up a log listener to execute arbitrary py
 ## Basic flow
 
 1. Set up HTTP log forwarding profile in PAN-OS, the URI to send the logs will be something 
-like /vistoq/device-connected
+like /hook/vistoq/device-connected. Ensure you add a header of 'Content-Type': 'Application/json' and 
+Use the following log format:
+
+    ```json
+     {
+     "device_name": "$device_name",
+     "serial": "$serial",
+     "description": "$opaque"
+    } 
+    ```
 
 2. Configure a entry in the 'reactor.conf' such as:
     ```bash
