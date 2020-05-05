@@ -14,34 +14,23 @@
 
 # Author: Scott Shoaf <sshoaf@paloaltonetworks.com>
 
-'''
-Palo Alto Networks updates.py
-
-uses panorama install content updates to a managed firewall
-does both content/threat and antivirus updates
-
-This software is provided without support, warranty, or guarantee.
-Use at your own risk.
-'''
-
 import pan.xapi
-from panorama_tools import update_content, get_latest_content
+
+from .panorama_tools import get_latest_content
+from .panorama_tools import update_content
 
 
 def content_update(panorama_ip, panorama_user, panorama_password, device_serial):
     fw = pan.xapi.PanXapi(api_username=panorama_user, api_password=panorama_password, hostname=panorama_ip)
-
     # get panorama api key
     api_key = fw.keygen()
     print(device_serial)
     if type(device_serial) is int and len(str(device_serial)) == 14:
         device_serial = '0{0}'.format(device_serial)
     print('updating content for NGFW serial number {0}'.format(device_serial))
-
     # !!! updates require panorama mgmt interface with internet access
     # update ngfw to latest content and av versions
     # passing in the serial number for device to update
-
     for item in ['content', 'anti-virus']:
         filename = get_latest_content(fw, item)
         update_content(fw, item, device_serial, filename)

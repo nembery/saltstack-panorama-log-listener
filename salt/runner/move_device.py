@@ -23,9 +23,11 @@ does both content/threat and antivirus updates
 This software is provided without support, warranty, or guarantee.
 Use at your own risk.
 '''
-
 import pan.xapi
-from panorama_tools import get_hostname, move_dg, move_ts
+
+from .panorama_tools import get_hostname
+from .panorama_tools import move_dg
+from .panorama_tools import move_ts
 
 
 def move_device(panorama_ip, panorama_user, panorama_password, device_serial, dg_name):
@@ -44,15 +46,12 @@ def move_device(panorama_ip, panorama_user, panorama_password, device_serial, dg
 
     print('moving NGFW serial number {0} to device-group {1}'.format(device_serial, to_dg))
     move_dg(fw, device_serial, from_dg, to_dg)
-
     print('moving NGFW serial number {0} to template_stack {1}'.format(device_serial, to_ts))
     move_ts(fw, device_serial, from_ts, to_ts)
-
     # sending hostname as the dg_name as the dg and stack to commit
     # original dg_name in is the staging dg name
     result = __salt__['event.send']('vistoq/commit-partial',
                                     {'dg_name': hostname,
                                      'panorama_ip': panorama_ip,
                                      'device_serial': device_serial})
-
     return "A-OK YO %s" % hostname

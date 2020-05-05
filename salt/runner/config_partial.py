@@ -22,9 +22,9 @@ do a partial commit to named  device-group and template-stack
 This software is provided without support, warranty, or guarantee.
 Use at your own risk.
 '''
-
 import pan.xapi
-from panorama_tools import commit_partial
+
+from .panorama_tools import commit_partial
 
 
 def commit_changes(panorama_ip, panorama_user, panorama_password, dg_name, staging, device_serial):
@@ -32,13 +32,10 @@ def commit_changes(panorama_ip, panorama_user, panorama_password, dg_name, stagi
 
     # get panorama api key
     api_key = fw.keygen()
-
     print('commit partial for {0}'.format(dg_name))
     dg_commit = commit_partial(fw, staging, dg_name, panorama_user)
-
     result = __salt__['event.send']('vistoq/push-to-device',
                                     {'dg_name': dg_name,
                                      'panorama_ip': panorama_ip,
                                      'device_serial': device_serial})
-
     return "A-OK YO %s" % dg_name
