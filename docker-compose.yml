@@ -7,9 +7,6 @@ services:
     - "4506:4506"
     - "9000:9000"
     volumes:
-     - ./provisioner/config:/etc/salt/master.d
-     - ./provisioner/salt:/srv/salt
-     - ./provisioner/pki:/var/lib/salt/pki/master
-     - ./provisioner/pki:/etc/salt/pki/master
-     - ./provisioner/run:/var/run/salt
+     - ./config:/etc/salt/master.d
+     - ./salt:/srv/salt
 
