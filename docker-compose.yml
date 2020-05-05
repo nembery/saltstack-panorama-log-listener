@@ -1,11 +1,11 @@
 version: '3'
 services:
   listener:
-    image: "saltstack/salt:2019.2.0"
+    image: "saltstack/salt:2019.2.4"
     ports:
     - "4505:4505"
     - "4506:4506"
-    - "9000:9000"
+    - "8000:8000"
     volumes:
      - ./config:/etc/salt/master.d
      - ./salt:/srv/salt

@@ -6,8 +6,8 @@ Use at your own risk.
 '''
 import pan.xapi
 
-from .panorama_tools import push_dg
-from .panorama_tools import push_stack
+from panorama_tools import push_dg
+from panorama_tools import push_stack
 
 
 def push_to_device(panorama_ip, panorama_user, panorama_password, dg_name, device_serial):

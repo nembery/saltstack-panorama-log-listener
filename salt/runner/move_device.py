@@ -25,9 +25,9 @@ Use at your own risk.
 '''
 import pan.xapi
 
-from .panorama_tools import get_hostname
-from .panorama_tools import move_dg
-from .panorama_tools import move_ts
+from panorama_tools import get_hostname
+from panorama_tools import move_dg
+from panorama_tools import move_ts
 
 
 def move_device(panorama_ip, panorama_user, panorama_password, device_serial, dg_name):

@@ -16,8 +16,8 @@
 
 import pan.xapi
 
-from .panorama_tools import get_latest_content
-from .panorama_tools import update_content
+from panorama_tools import get_latest_content
+from panorama_tools import update_content
 
 
 def content_update(panorama_ip, panorama_user, panorama_password, device_serial):

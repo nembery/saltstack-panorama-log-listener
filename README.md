@@ -1,13 +1,23 @@
-# Saltstack Event / Log Listener
+# Saltstack Event / Panorama Log Listener
 
 This is a simple example of how to set up a log listener to execute arbitrary python code in response to various logs
+from Panorama.
+
+## Example Details
+
+This example configured Panorama to send an event when a new device connects and is placed in the 'staging' device 
+group.
+
+Saltstack is then configured to connect to that device, update it's dynamic content, then move it into a new device
+group. More actions and compliance checks could easily be added.
 
 
-## Basic flow
+
+## Extending this Example
 
 1. Set up HTTP log forwarding profile in PAN-OS, the URI to send the logs will be something 
 like /hook/vistoq/device-connected. Ensure you add a header of 'Content-Type': 'Application/json' and 
-Use the following log format:
+use the following log format. The panorama-config directory contains a skillet to push the appropriate config.
 
     ```json
      {
@@ -16,7 +26,7 @@ Use the following log format:
      "description": "$opaque"
     } 
     ```
-
+      
 2. Configure a entry in the 'reactor.conf' such as:
     ```bash
         # the event URI /vistoq/device-connected will map to the vistoq_device_connected.sls file
@@ -50,8 +60,8 @@ Use the following log format:
       # The will send in the 4 keyword arguments listed below
       runner.updates.content_update:
        - panorama_ip: {{ r }}
-       - panorama_user: some_user
-       - panorama_password: some_secret
+       - panorama_user: {{ panorama_user }}
+       - panorama_password: {{ panorama_password }}
        - device_serial: "{{ d.split(":")[1].split(" ")[0] | string }}" 
    ```
  

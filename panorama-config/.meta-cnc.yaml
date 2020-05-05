@@ -1,0 +1,39 @@
+name: saltstack-panorama-event-trigger
+label: Configures Panorama to trigger events in Saltstack
+description: Sets up a log forwarding profile to send events to Saltstack
+type: panos
+labels:
+  collection: Example Skillets
+variables:
+- name: salt_ip
+  type_hint: ip_address
+  description: Saltstack API IP
+  default: 10.10.10.10
+- name: salt_port
+  type_hint: number
+  description: Salt API Port
+  default: '8000'
+snippets:
+- name: panorama-930241
+  xpath: /config/panorama
+  element: "<log-settings>\n    <system>\n       <match-list>\n          <entry name=\"\
+    device-connected-to-staging-log-forwarding\">\n            <send-http>\n     \
+    \         <member>device_connected_profile</member>\n            </send-http>\n\
+    \            <filter>(description contains 'Panorama push to device') and (description\
+    \ contains staging) and (description contains succeeded)</filter>\n          \
+    \  <description>Filters for devices connecting to staging and forwards to HTTP\
+    \ log forwarding profile </description>\n          </entry>\n        </match-list>\n\
+    \      </system>\n      <http>\n        <entry name=\"device_connected_profile\"\
+    >\n          <server>\n            <entry name=\"saltstack\">\n              <address>{{\
+    \ salt_ip }}</address>\n              <http-method>POST</http-method>\n      \
+    \        <protocol>HTTP</protocol>\n              <tls-version>1.2</tls-version>\n\
+    \              <port>{{ salt_port }}</port>\n              <certificate-profile>None</certificate-profile>\n\
+    \            </entry>\n          </server>\n          <format>\n            <system>\n\
+    \              <headers>\n                <entry name=\"Content-Type\">\n    \
+    \              <value>application/json</value>\n                </entry>\n   \
+    \           </headers>\n              <name>device-connected-payload</name>\n\
+    \              <url-format>/hook/example/device-connected</url-format>\n     \
+    \         <payload>{\n     \"device_name\": \"$device_name\",\n     \"serial\"\
+    : \"$serial\",\n     \"description\": \"$opaque\"\n}</payload>\n            </system>\n\
+    \          </format>\n        </entry>\n      </http>\n    </log-settings>"
+  cmd: set

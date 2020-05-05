@@ -24,7 +24,7 @@ Use at your own risk.
 '''
 import pan.xapi
 
-from .panorama_tools import commit_partial
+from panorama_tools import commit_partial
 
 
 def commit_changes(panorama_ip, panorama_user, panorama_password, dg_name, staging, device_serial):
